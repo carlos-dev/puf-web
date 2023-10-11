@@ -1,6 +1,6 @@
 import React from 'react'
 import SignUp from './SignUp'
-import { Theme } from 'components/Theme'
+import { Theme } from 'components'
 
 const App: React.FC = () => {
   return (
