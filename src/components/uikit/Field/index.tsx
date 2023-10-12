@@ -8,6 +8,7 @@ type FieldProps = {
   name: string
   label: string
   type?: string
+  disabled?: boolean
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 } & DefaultTheme
 
@@ -15,10 +16,17 @@ export const Field: React.FC<FieldProps> = ({
   name,
   label,
   type,
+  disabled,
   ...props
 }) => (
   <Box mb={3} flexbox justifyContent="center" {...props}>
     <Label htmlFor={name}>{label}</Label>
-    <Input type={type} name={name} id={name} onChange={props.onChange} />
+    <Input
+      type={type}
+      name={name}
+      id={name}
+      onChange={props.onChange}
+      disabled={disabled}
+    />
   </Box>
 )

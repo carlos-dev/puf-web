@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import { Box, Button, Field } from 'components'
+import axios from 'axios'
 
 const Main = styled(Box)`
   flex: 1;
@@ -12,17 +13,25 @@ const SignUp: React.FC = () => {
     email: '',
     password: '',
   })
+  const [isLoading, setIsLoading] = useState(true)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    console.log(name, value)
 
     setValues({ ...values, [name]: value })
   }
 
-  const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(values)
+    setIsLoading(true)
+    try {
+      const response = await axios.post('http://localhost:3001/users')
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -36,6 +45,7 @@ const SignUp: React.FC = () => {
             mb={3}
             flex={1}
             onChange={onChange}
+            disabled={isLoading}
           />
           <Field
             name="email"
@@ -43,6 +53,7 @@ const SignUp: React.FC = () => {
             type="email"
             mb={3}
             onChange={onChange}
+            disabled={isLoading}
           />
 
           <Field
@@ -50,10 +61,11 @@ const SignUp: React.FC = () => {
             label="password"
             type="Senha"
             onChange={onChange}
+            disabled={isLoading}
           />
 
           <Box flexbox alignItems="center">
-            <Button type="submit">Registrar</Button>
+            <Button isLoading={isLoading}>Registrar</Button>
           </Box>
         </form>
       </Box>

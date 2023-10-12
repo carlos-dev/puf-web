@@ -8,4 +8,6 @@ export const Input = styled('input')`
   color: ${th.color('white')};
   padding: ${th.space(2)}px ${th.space(3)}px;
   font-size: inherit;
+
+  ${({ disabled }) => disabled && 'opacity: 0.5;'}
 `
