@@ -13,7 +13,7 @@ const SignUp: React.FC = () => {
     email: '',
     password: '',
   })
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -25,7 +25,11 @@ const SignUp: React.FC = () => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      const response = await axios.post('http://localhost:3001/users')
+      const response = await axios.post('http://localhost:3001/users', {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
       console.log(response)
     } catch (error) {
       console.log(error)
@@ -58,8 +62,8 @@ const SignUp: React.FC = () => {
 
           <Field
             name="password"
-            label="password"
-            type="Senha"
+            label="Senha"
+            type="password"
             onChange={onChange}
             disabled={isLoading}
           />

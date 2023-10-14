@@ -10,7 +10,7 @@ type ThemeProps = {
 export const Theme: React.FC<ThemeProps> = ({ children }) => {
   return (
     <ThemeProvider theme={definitions}>
-      <GlobalStyle bg="raisinBlack" color="white" />
+      <GlobalStyle bg="raisinBlack" color="white" fontSize={3} />
       {children}
     </ThemeProvider>
   )
