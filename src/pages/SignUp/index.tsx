@@ -1,29 +1,28 @@
-import React, { ChangeEvent, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Box, Button, Field } from 'components'
 import axios from 'axios'
+import * as yup from 'yup'
+import { useFormik } from 'formik'
+
+type ISignUpForm = {
+  name: string
+  email: string
+  password: string
+}
 
 const Main = styled(Box)`
   flex: 1;
 `
 
+const schema = yup.object().shape({
+  name: yup.string().required('Campo obrigatório'),
+  email: yup.string().email('Email inválido').required('Campo obrigatório'),
+  password: yup.string().required('Campo obrigatório'),
+})
+
 const SignUp: React.FC = () => {
-  const [values, setValues] = useState({
-    name: '',
-    email: '',
-    password: '',
-  })
-  const [isLoading, setIsLoading] = useState(false)
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-
-    setValues({ ...values, [name]: value })
-  }
-
-  const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsLoading(true)
+  const onSubmit = async (values: ISignUpForm) => {
     try {
       const response = await axios.post('http://localhost:3001/users', {
         name: values.name,
@@ -31,45 +30,85 @@ const SignUp: React.FC = () => {
         password: values.password,
       })
       console.log(response)
-    } catch (error) {
+    } catch (error: unknown) {
       console.log(error)
+      if (error instanceof yup.ValidationError) {
+        // const validationError = error as yup.ValidationError
+        // setErrors({
+        //   ...errors,
+        //   [validationError.path as string]: validationError.message,
+        // })
+      }
     } finally {
-      setIsLoading(false)
+      // setSubmitting(false)
     }
   }
+  const {
+    values,
+    errors,
+    isSubmitting,
+    touched,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+  } = useFormik<ISignUpForm>({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    onSubmit,
+    validationSchema: schema,
+  })
+  console.log({ errors, touched })
 
   return (
     <Main as="main" flexbox justifyContent="center" alignItems="center">
       <Box style={{ width: 380 }}>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
           <Field
+            id="name"
             name="name"
             label="Nome"
             type="text"
+            value={values.name}
             mb={3}
             flex={1}
-            onChange={onChange}
-            disabled={isLoading}
+            disabled={isSubmitting}
+            error={touched.name ? errors.name : undefined}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
+
           <Field
+            id="email"
             name="email"
             label="Email"
             type="email"
+            value={values.email}
             mb={3}
-            onChange={onChange}
-            disabled={isLoading}
+            disabled={isSubmitting}
+            error={touched.email ? errors.email : undefined}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
 
           <Field
-            name="password"
+            id="password"
             label="Senha"
+            name="password"
             type="password"
-            onChange={onChange}
-            disabled={isLoading}
+            value={values.password}
+            error={touched.password ? errors.password : undefined}
+            disabled={isSubmitting}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
 
-          <Box flexbox alignItems="center">
-            <Button isLoading={isLoading}>Registrar</Button>
+          <Box flexbox justifyContent="center">
+            <Button isLoading={isSubmitting} type="submit">
+              Registrar
+            </Button>
           </Box>
         </form>
       </Box>

@@ -1,7 +1,11 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { th } from 'components/Theme/styled'
 
-export const Input = styled('input')`
+type InputProps = {
+  hasError?: boolean
+}
+
+export const Input = styled('input')<InputProps>`
   background-color: transparent;
   border: 1px solid #fff;
   border-radius: 200px;
@@ -10,4 +14,9 @@ export const Input = styled('input')`
   font-size: inherit;
 
   ${({ disabled }) => disabled && 'opacity: 0.5;'}
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${th.color('red')};
+    `}
 `

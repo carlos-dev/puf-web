@@ -7,7 +7,7 @@ type ButtonProps = {
   children: React.ReactNode
   isLoading?: boolean
   disabled?: boolean
-}
+} & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const StyledButton = styled('button')`
   background-color: ${th.color('white')};
@@ -24,8 +24,9 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   isLoading,
   disabled,
+  ...props
 }) => (
-  <StyledButton disabled={disabled || isLoading}>
+  <StyledButton disabled={disabled || isLoading} {...props}>
     {isLoading ? <Spinner /> : children}
   </StyledButton>
 )
