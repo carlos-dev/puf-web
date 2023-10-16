@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Box, Button, Field } from 'components'
+import styled, { DefaultTheme } from 'styled-components'
+import { Box, Button, Field, font } from 'components'
 import axios from 'axios'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
@@ -14,6 +14,12 @@ type ISignUpForm = {
 const Main = styled(Box)`
   flex: 1;
 `
+
+const Title = styled.h2<DefaultTheme>`
+  ${font}
+`
+
+const Link = styled(Box)<DefaultTheme>``
 
 const schema = yup.object().shape({
   name: yup.string().required('Campo obrigatório'),
@@ -32,17 +38,9 @@ const SignUp: React.FC = () => {
       console.log(response)
     } catch (error: unknown) {
       console.log(error)
-      if (error instanceof yup.ValidationError) {
-        // const validationError = error as yup.ValidationError
-        // setErrors({
-        //   ...errors,
-        //   [validationError.path as string]: validationError.message,
-        // })
-      }
-    } finally {
-      // setSubmitting(false)
     }
   }
+
   const {
     values,
     errors,
@@ -60,11 +58,18 @@ const SignUp: React.FC = () => {
     onSubmit,
     validationSchema: schema,
   })
-  console.log({ errors, touched })
 
   return (
-    <Main as="main" flexbox justifyContent="center" alignItems="center">
+    <Main
+      as="main"
+      flexbox
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+    >
       <Box style={{ width: 380 }}>
+        <Title textAlign="center">Cadastro</Title>
+
         <form onSubmit={handleSubmit}>
           <Field
             id="name"
@@ -105,10 +110,26 @@ const SignUp: React.FC = () => {
             onBlur={handleBlur}
           />
 
-          <Box flexbox justifyContent="center">
-            <Button isLoading={isSubmitting} type="submit">
+          <Box
+            flexbox
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Button isLoading={isSubmitting} type="submit" m={2}>
               Registrar
             </Button>
+
+            <Link
+              href="#"
+              as="a"
+              m={2}
+              fontSize={1}
+              color="gray"
+              fontWeight="bold"
+            >
+              já sou cadastrado
+            </Link>
           </Box>
         </form>
       </Box>

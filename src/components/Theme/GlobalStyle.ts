@@ -2,6 +2,8 @@ import { createGlobalStyle } from 'styled-components'
 import { background, font } from './styled'
 
 export const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
+  
   html, body {
     height: 100%;
   }
@@ -9,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
   ${background}
   ${font}
    margin: 0;
-   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+   font-family: Manrope, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
      sans-serif;
    -webkit-font-smoothing: antialiased;
@@ -29,5 +31,13 @@ export const GlobalStyle = createGlobalStyle`
  input {
   font-size: inherit;
   outline: none;
- }
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+  }
 `

@@ -1,5 +1,8 @@
 import { DefaultTheme } from 'styled-components'
 
+const addifExists = (prop: string | boolean, value: string) =>
+  prop ? value : ''
+
 const theme =
   (prop: string) => (value: number | string) => (props: DefaultTheme) =>
     props.theme[prop][value] || value
@@ -10,31 +13,52 @@ export const th = {
   color: theme('colors'),
 }
 
+// export const background = (props: DefaultTheme) =>
+//   props.bg && `background-color: ${props.theme.colors[props.bg]};`
+
 export const background = (props: DefaultTheme) =>
-  props.bg && `background-color: ${props.theme.colors[props.bg]};`
+  addifExists(props.bg, `background-color: ${props.theme.colors[props.bg]} ;`)
 
 export const font = (props: DefaultTheme) => {
-  const color =
-    props.color && `color: ${props.theme.colors[props.color] || props.color};`
-  const size =
-    Object.prototype.hasOwnProperty.call(props, 'fontSize') &&
+  const color = addifExists(
+    props.color,
+    `color: ${props.theme.colors[props.color] || props.color};`
+  )
+
+  const size = addifExists(
+    Object.prototype.hasOwnProperty.call(props, 'fontSize'),
     `font-size: ${props.theme.fontSizes[props.fontSize]}px;`
+  )
+  const textAlign = addifExists(
+    props.textAlign,
+    `text-align: ${props.textAlign};`
+  )
+  const fontWeight = addifExists(
+    props.fontWeight,
+    `font-weight: ${props.fontWeight};`
+  )
 
   return `
-    ${color || ''}
-    ${size || ''}
+    ${color}
+    ${size}
+    ${textAlign}
+    ${fontWeight}
   `
 }
 
 export const flexbox = (props: DefaultTheme) => {
   return `
-    ${(props.flex && `flex: ${props.flex};`) || ''}
-    ${(props.flexbox && 'display: flex;') || ''}
-    ${(props.flexDirection && `flex-direction: ${props.flexDirection}`) || ''};
-    ${(props.alignItems && `align-items: ${props.alignItems}`) || ''};
-    ${
-      (props.justifyContent && `justify-content: ${props.justifyContent}`) || ''
-    };
+    ${addifExists(props.flex, `flex: ${props.flex};`)}
+    ${addifExists(props.flexbox, 'display: flex;')}
+    ${addifExists(
+      props.flexDirection,
+      `flex-direction: ${props.flexDirection};`
+    )}
+    ${addifExists(props.alignItems, `align-items: ${props.alignItems};`)}
+    ${addifExists(
+      props.justifyContent,
+      `justify-content: ${props.justifyContent};`
+    )}
   `
 }
 

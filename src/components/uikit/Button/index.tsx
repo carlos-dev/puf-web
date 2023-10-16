@@ -1,22 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
-import { th } from 'components/Theme'
+import styled, { DefaultTheme } from 'styled-components'
+import { margin, th } from 'components/Theme'
 import { Spinner } from 'components/uikit/Spinner'
 
 type ButtonProps = {
   children: React.ReactNode
   isLoading?: boolean
   disabled?: boolean
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
+} & React.ButtonHTMLAttributes<HTMLButtonElement> &
+  DefaultTheme
 
-const StyledButton = styled('button')`
+const StyledButton = styled('button')<DefaultTheme>`
   background-color: ${th.color('white')};
   border: none;
   border-radius: 200px;
   color: ${th.color('black')};
-  padding: ${th.space(2)}px ${th.space(8)}px;
+  padding: ${th.space(3)}px ${th.space(9)}px;
   font-size: inherit;
-
+  ${margin}
   ${props => props.disabled && `opacity: 0.5;`}
 `
 
