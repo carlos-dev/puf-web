@@ -31,7 +31,7 @@ const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   </Box>
 )
 
-const SignUp: React.FC = () => {
+const Login: React.FC = () => {
   return (
     <Main as="main">
       <CenteredBox bg="black">
@@ -44,7 +44,7 @@ const SignUp: React.FC = () => {
 
       <CenteredBox>
         <>
-          <Title textAlign="center">Cadastro</Title>
+          <Title textAlign="center">Login</Title>
 
           <Form />
         </>
@@ -53,4 +53,4 @@ const SignUp: React.FC = () => {
   )
 }
 
-export default SignUp
+export default Login

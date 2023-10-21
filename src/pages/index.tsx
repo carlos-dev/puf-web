@@ -1,11 +1,12 @@
 import React from 'react'
-import SignUp from './SignUp'
 import { Theme } from 'components'
+// import SignUp from './SignUp'
+import Login from './Login'
 
 const App: React.FC = () => {
   return (
     <Theme>
-      <SignUp />
+      <Login />
     </Theme>
   )
 }
