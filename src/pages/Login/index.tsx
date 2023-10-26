@@ -3,6 +3,20 @@ import styled, { DefaultTheme } from 'styled-components'
 import { Box, font, Logo } from 'components'
 import { ReactComponent as Ilustra } from './ilustra.svg'
 import { Form } from './Form'
+import axios from 'axios'
+
+type LoginProps = {
+  onSuccess: (logged: boolean) => void
+}
+
+type FormProps = {
+  username: string
+  password: string
+}
+
+type CenteredBoxProps = {
+  children: React.ReactElement
+} & DefaultTheme
 
 const Main = styled(Box)`
   display: flex;
@@ -12,10 +26,6 @@ const Main = styled(Box)`
 const Title = styled.h2<DefaultTheme>`
   ${font}
 `
-
-type CenteredBoxProps = {
-  children: React.ReactElement
-} & DefaultTheme
 
 const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   <Box
@@ -31,7 +41,20 @@ const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   </Box>
 )
 
-const Login: React.FC = () => {
+const Login: React.FC<LoginProps> = ({ onSuccess }) => {
+  const onSubmit = async (values: FormProps) => {
+    try {
+      const response = await axios.get('http://localhost:3001/login', {
+        auth: values,
+      })
+
+      onSuccess(response.data)
+      console.log(response)
+    } catch (error: unknown) {
+      console.log(error)
+    }
+  }
+
   return (
     <Main as="main">
       <CenteredBox bg="black">
@@ -46,7 +69,7 @@ const Login: React.FC = () => {
         <>
           <Title textAlign="center">Login</Title>
 
-          <Form />
+          <Form onSubmit={onSubmit} />
         </>
       </CenteredBox>
     </Main>

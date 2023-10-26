@@ -2,12 +2,15 @@ import React from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import styled, { DefaultTheme } from 'styled-components'
-import axios, { AxiosResponse } from 'axios'
 import { Box, Button, Field, font, margin } from 'components'
 
 type FormProps = {
   username: string
   password: string
+}
+
+type IForm = {
+  onSubmit: (values: FormProps) => void
 }
 
 const Link = styled(Box)<DefaultTheme>`
@@ -20,21 +23,7 @@ const schema = yup.object().shape({
   password: yup.string().required('Campo obrigatório'),
 })
 
-export const Form: React.FC = () => {
-  const onSubmit = async (values: FormProps) => {
-    try {
-      const response: AxiosResponse<FormProps> = await axios.post(
-        'http://localhost:3001/users',
-        {
-          auth: values,
-        }
-      )
-      console.log(response)
-    } catch (error: unknown) {
-      console.log(error)
-    }
-  }
-
+export const Form: React.FC<IForm> = ({ onSubmit }) => {
   const {
     values,
     errors,
@@ -86,14 +75,8 @@ export const Form: React.FC = () => {
 
         <Box fontSize={1} color="gray">
           Não possui cadastro?{' '}
-          <Link
-            href="#"
-            as="a"
-            m={2}
-            fontSize={1}
-            color="gray"
-            fontWeight="bold"
-          >
+          <Link href="#" as="a" color="gray" fontWeight="bold">
+            {' '}
             Cadastre-se
           </Link>
         </Box>
