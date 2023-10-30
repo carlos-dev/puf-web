@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import styled, { DefaultTheme } from 'styled-components'
 import { Box, Button, Field, font, margin } from 'components'
+import { Link as RouterLink } from 'react-router-dom'
 
 type FormProps = {
   username: string
@@ -13,7 +14,7 @@ type IForm = {
   onSubmit: (values: FormProps) => void
 }
 
-const Link = styled(Box)<DefaultTheme>`
+const Link = styled(RouterLink)<DefaultTheme>`
   ${font};
   ${margin}
 `
@@ -75,7 +76,7 @@ export const Form: React.FC<IForm> = ({ onSubmit }) => {
 
         <Box fontSize={1} color="gray">
           Não possui cadastro?{' '}
-          <Link href="#" as="a" color="gray" fontWeight="bold">
+          <Link to="/signup" color="gray" fontWeight="bold">
             {' '}
             Cadastre-se
           </Link>

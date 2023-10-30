@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import styled, { DefaultTheme } from 'styled-components'
 import axios from 'axios'
 import { Box, Button, Field, font, margin } from 'components'
+import { Link as RouterLink } from 'react-router-dom'
 
 type FormProps = {
   name: string
@@ -11,7 +12,7 @@ type FormProps = {
   password: string
 }
 
-const Link = styled(Box)<DefaultTheme>`
+const Link = styled(RouterLink)<DefaultTheme>`
   ${font};
   ${margin}
 `
@@ -100,7 +101,7 @@ export const Form: React.FC = () => {
           Registrar
         </Button>
 
-        <Link href="#" as="a" m={2} fontSize={1} color="gray" fontWeight="bold">
+        <Link href="/" as="a" m={2} fontSize={1} color="gray" fontWeight="bold">
           já sou cadastrado
         </Link>
       </Box>

@@ -4,10 +4,7 @@ import { Box, font, Logo } from 'components'
 import { ReactComponent as Ilustra } from './ilustra.svg'
 import { Form } from './Form'
 import axios from 'axios'
-
-type LoginProps = {
-  onSuccess: (logged: boolean) => void
-}
+import { useAuth } from 'hooks/auth'
 
 type FormProps = {
   username: string
@@ -41,14 +38,16 @@ const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   </Box>
 )
 
-const Login: React.FC<LoginProps> = ({ onSuccess }) => {
+const Login: React.FC = () => {
+  const { login: setAuth } = useAuth()
+
   const onSubmit = async (values: FormProps) => {
     try {
       const response = await axios.get('http://localhost:3001/login', {
         auth: values,
       })
 
-      onSuccess(response.data)
+      setAuth(response.data)
       console.log(response)
     } catch (error: unknown) {
       console.log(error)
