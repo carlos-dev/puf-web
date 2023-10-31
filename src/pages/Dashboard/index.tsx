@@ -2,11 +2,12 @@ import React from 'react'
 import { useAuth } from 'hooks/auth'
 
 export const Dashboard = () => {
-  const { logout } = useAuth()
+  const { logout, logged } = useAuth()
+  console.log({ logged })
 
   return (
     <div>
-      estou logado <button onClick={logout}>sair</button>{' '}
+      Olá {logged?.user.name} <button onClick={logout}>sair</button>{' '}
     </div>
   )
 }

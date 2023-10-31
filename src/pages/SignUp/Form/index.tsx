@@ -2,14 +2,12 @@ import React from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import styled, { DefaultTheme } from 'styled-components'
-import axios from 'axios'
 import { Box, Button, Field, font, margin } from 'components'
 import { Link as RouterLink } from 'react-router-dom'
+import { IFormData } from '..'
 
 type FormProps = {
-  name: string
-  email: string
-  password: string
+  onSubmit: (values: IFormData) => void
 }
 
 const Link = styled(RouterLink)<DefaultTheme>`
@@ -23,20 +21,7 @@ const schema = yup.object().shape({
   password: yup.string().required('Campo obrigatório'),
 })
 
-export const Form: React.FC = () => {
-  const onSubmit = async (values: FormProps) => {
-    try {
-      const response = await axios.post('http://localhost:3001/users', {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      })
-      console.log(response)
-    } catch (error: unknown) {
-      console.log(error)
-    }
-  }
-
+export const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const {
     values,
     errors,
@@ -45,7 +30,7 @@ export const Form: React.FC = () => {
     handleChange,
     handleSubmit,
     handleBlur,
-  } = useFormik<FormProps>({
+  } = useFormik<IFormData>({
     initialValues: {
       name: '',
       email: '',

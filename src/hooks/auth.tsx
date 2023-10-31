@@ -7,7 +7,11 @@ import React, {
 } from 'react'
 
 type AuthContextProps = {
-  logged: boolean
+  logged?: {
+    user: {
+      name: string | null
+    }
+  }
   setLogged: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -16,7 +20,7 @@ type AuthProviderProps = {
 }
 
 const AuthContext = createContext<AuthContextProps>({
-  logged: false,
+  logged: undefined,
   setLogged: () => {
     /* default implementation */
   },

@@ -3,6 +3,15 @@ import styled, { DefaultTheme } from 'styled-components'
 import { Box, font, Logo } from 'components'
 import { ReactComponent as Ilustra } from './ilustra.svg'
 import { Form } from './Form'
+import axios from 'axios'
+import { useAuth } from 'hooks/auth'
+import { useNavigate } from 'react-router-dom'
+
+export type IFormData = {
+  name: string
+  email: string
+  password: string
+}
 
 const Main = styled(Box)`
   display: flex;
@@ -31,7 +40,24 @@ const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   </Box>
 )
 
-const SignUp: React.FC = () => {
+export const SignUp: React.FC = () => {
+  const { login: setAuth } = useAuth()
+  const navigate = useNavigate()
+
+  const onSubmit = async (values: IFormData) => {
+    try {
+      const response = await axios.post('http://localhost:3001/users', {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+      setAuth(response.data)
+      navigate('/', { replace: true })
+    } catch (error: unknown) {
+      console.log(error)
+    }
+  }
+
   return (
     <Main as="main">
       <CenteredBox bg="black">
@@ -46,11 +72,9 @@ const SignUp: React.FC = () => {
         <>
           <Title textAlign="center">Cadastro</Title>
 
-          <Form />
+          <Form onSubmit={onSubmit} />
         </>
       </CenteredBox>
     </Main>
   )
 }
-
-export default SignUp

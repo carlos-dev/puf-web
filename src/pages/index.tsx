@@ -1,13 +1,13 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Login from './Login'
-import SignUp from './SignUp'
+import { Login } from './Login'
+import { SignUp } from './SignUp'
 import { Dashboard } from './Dashboard'
 import { useAuth } from 'hooks/auth'
 
 const App: React.FC = () => {
   const { logged } = useAuth()
-
+  console.log(logged)
   return (
     <BrowserRouter>
       <Routes>
@@ -20,6 +20,7 @@ const App: React.FC = () => {
           </>
         )}
       </Routes>
+      {/* {logged ? <Navigate to="/" replace /> : null} */}
     </BrowserRouter>
   )
 }

@@ -5,6 +5,7 @@ import { ReactComponent as Ilustra } from './ilustra.svg'
 import { Form } from './Form'
 import axios from 'axios'
 import { useAuth } from 'hooks/auth'
+import { useNavigate } from 'react-router-dom'
 
 type FormProps = {
   username: string
@@ -38,8 +39,9 @@ const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   </Box>
 )
 
-const Login: React.FC = () => {
+export const Login: React.FC = () => {
   const { login: setAuth } = useAuth()
+  const navigate = useNavigate()
 
   const onSubmit = async (values: FormProps) => {
     try {
@@ -48,7 +50,7 @@ const Login: React.FC = () => {
       })
 
       setAuth(response.data)
-      console.log(response)
+      navigate('/', { replace: true })
     } catch (error: unknown) {
       console.log(error)
     }
@@ -74,5 +76,3 @@ const Login: React.FC = () => {
     </Main>
   )
 }
-
-export default Login
